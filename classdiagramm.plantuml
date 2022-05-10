@@ -1,0 +1,172 @@
+@startuml
+
+class bonus{
+    
+    apparence
+    --
+    position
+    --
+    vitesse
+    --
+    hitbox
+}
+
+class voiture{
+    
+    couleur
+    --
+    position
+    --
+    vitesse
+    --
+    hitbox
+}
+
+class voiturejoueur{
+    
+    son
+    --
+    apparence
+}
+
+class voiturenonjoueur{
+    
+    apparence
+}
+
+class score{
+    
+    valeur
+    --
+    exposition
+}
+
+class menu{
+    
+    image
+    --
+    boutons
+    --
+    skin
+}
+
+class niveau{
+    
+    vitesse
+    --
+    fréquence apparition
+    --
+    timer
+    --
+    couleur voiture non-joueur
+}
+
+class écrangameover{
+    
+    boutons
+    --
+    score
+    --
+    image
+}
+
+class route{
+    
+    apparence
+    --
+    boutons
+}
+
+class murbasécran{
+
+apparence
+--
+hitbox
+}
+
+
+
+
+
+menu -- niveau : sélectionne le niveau >
+menu : switchscene()
+menu : vitesse()
+
+menu -- route : fait apparaitre >
+menu : appartition()
+
+menu -- voiturejoueur : costomise >
+menu : skin()
+menu : color()
+
+niveau -- score : définit le timer de départ >
+niveau : temps()
+
+route -- murbasécran : < confirme le contact avec le mur 
+murbasécran : confirmationcontact()
+
+niveau -- bonus : définit la vitesse et le temps d'apparition entre chaque bonus >
+niveau : vitessebonus()
+niveau : apparitionbonus()
+
+niveau -- voiturenonjoueur : gère la vitess et le temps d'apparition entre chaque voitures >
+niveau : vitessevoiture()
+niveau : apparitionvoiture()
+
+score -- route : < fait apparaitre le score sur la route
+route : apparitionscoresurroute()
+
+score -- écrangameover : < arrete le décompte lors d'un accident game over
+écrangameover : stop()
+
+score -- écrangameover : < fait apparaitre le score
+écrangameover : apparitionscore()
+
+route -- bonus : fait apparaitre le bonus  et le fait disparaitre lors d'un choc >
+route : apparition()
+route : disparition()
+
+route -- murbasécran : fait apparaitre le mur en bas de l'écran >
+route : apparitionmur()
+
+route -- voiturenonjoueur : fait apparaitre la voiture et la fait disparaitre lors d accident >
+route : apparitionvoiture()
+route : disparition()
+
+route -- voiturenonjoueur : < confirme le contact entre les deux voitures 
+voiturenonjoueur : confirmationcontact()
+
+voiturejoueur -- voiturenonjoueur : demande a la voiture non joeur si il y a bien un acccident >
+voiturejoueur : accident()
+
+
+voiturejoueur --> voiture
+
+voiturenonjoueur --> voiture 
+
+voiturejoueur -- bonus : demande si il y a un contact avec le bonus >
+bonus : powerup()
+voiturejoueur : contact()
+
+voiturejoueur -- route : confirme le contact avec le bonus
+voiturejoueur : confirmation()
+
+route -- écrangameover : défini l apparition de l'écran game over  >
+route : apparitionécrangameover()
+
+voiturenonjoueur -- murbasécran : demande au mur si il y a eu contact 
+voiturenonjoueur : contact()
+
+
+
+bouclier --> bonus
+
+
+ 
+
+
+
+
+
+@enduml
+ 

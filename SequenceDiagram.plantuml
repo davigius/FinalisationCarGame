@@ -1,0 +1,71 @@
+@startuml Sequence Diagram 
+
+participant menu 
+participant niveau
+participant route 
+participant bonus 
+participant voiturejoueur
+participant voiturenonjoueur
+participant ecranGameOver
+participant score 
+participant murbasecran
+
+
+menu --> menu: changeSkin
+menu --> menu: changeColor
+menu -> voiturejoueur: changeSkin (2.1)
+menu -> voiturenonjoueur: changeColor (2.1.2)
+
+menu -> niveau: selectionNiveau (2.2)
+niveau -> score: definitionTemps (2.2.1)
+niveau -> voiturenonjoueur: setVitesse(2.2.2)
+niveau -> voiturenonjoueur: fréquenceApparition (2.2.3)
+niveau -> bonus: setVitesse(2.2.4)
+niveau -> bonus: fréquenceApparition (2.2.5)
+
+menu -> route: apparition (2.3)
+route -> voiturejoueur: apparition (2.3.1)
+route -> murbasecran: appartion (2.3.2)
+route -> score: appartion (2.3.3)
+loop while in timer
+    route -> voiturenonjoueur: apparition (2.3.4)
+    voiturenonjoueur -> voiturenonjoueur: déplacement (2.3.4.1)
+
+    route -> bonus: apparition (2.3.5)    
+    bonus -> bonus: déplacement(2.3.5.1)
+end
+
+voiturenonjoueur -> murbasecran: verifieContact (3)
+murbasecran -> route: confirmationContact (3.1)
+route -> voiturenonjoueur: disparition (3.1.1)
+
+bonus -> murbasecran: verifiecontact(4)
+murbasecran -> route: confirmationContact(4.1)
+route -> bonus: disparition(4.1.1)
+
+
+route -> voiturejoueur: déplacement (5)
+
+voiturenonjoueur -> voiturejoueur: verifieContact(6)
+voiturejoueur -> route: confirmeContact (6.1)
+route -> route: playSoundAccident(6.1.1)
+route -> score: stopTimer (6.2)
+score -> score: stockage (6.2.1)
+
+voiturejoueur -> ecranGameOver: Appartiton(6.3)
+ecranGameOver -> route: disparition (6.3.1)
+ecranGameOver -> score: affichageScore(6.3.2)
+ecranGameOver -> menu: retourMenu (7.0)
+ecranGameOver -> niveau: resetNiveau (7.1)
+ecranGameOver -> route: apparition (8)
+
+route -> score: resetScore (8.1)
+
+bonus -> voiturejoueur: verifieContact(9)
+voiturejoueur -> route: confirmationContact(9.1)
+route -> bonus: disparition (9.1.1)
+voiturejoueur -> bonus: confirmationContact(9.2)
+bonus -> voiturejoueur: noclip(9.2.1)
+
+
+@enduml
